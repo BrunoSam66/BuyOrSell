@@ -1,0 +1,84 @@
+{% extends "base.html"%} {% block title %}Sell{% endblock %}
+{% block content %}
+<div id="body1" class="mainContainer" type=variable value=blue>
+ <div class="hero is-sucess d-flex align-items-center justify-content-center">
+      <tr>
+         <td>
+            <br>                                     
+            <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+            <div class="box" id="caixaindexpage">
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        {% if category =='error' %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+            {% endif %}{% endfor %}{%endif %}{% endwith %}    
+            <form method="POST" action="/BuyOrSell/sell"  enctype="multipart/form-data" style="margin-right:2cm;">
+               <ul id="formLabels" style="list-style: none;">
+                  <h3 id="title">Sell your product</h3>
+                  <br>
+                  <li>
+                     <p style="tabe-size:4;">&emsp;&emsp;Here you can indicate information about the product you want to sell. Fill in all fields so buyers can accurately understand what you are selling. Also leave your contact so that they can contact you. Try to incorporate a short description with a good number of keywords. These facilitated the search process for your product allowing it to be easier to find.</p>
+                  </li>
+                  <br>
+                  <li>
+                     <label id="labels"for="name" class="input-group">
+                     <span>Product name</span>
+                     </label>                    
+                     <input class="input-group" type="text" name="name" style="width:29.1%"placeholder=" Product name">
+                  </li>
+                  <br>                        
+                  <li>
+                     <label id="labels"for="description" class="input-group">
+                     <span>Price:</span>&nbsp;&nbsp;&nbsp;
+                     <input type="number" required name="price" min="0" value="0" step="0.025">
+                     </label>
+                  </li>
+                  <li>
+                     <label id="labels"for="category" class="input-group">
+                        <span>What is your product category</span>&nbsp;&nbsp;&nbsp;
+                        <select id="select" name="productTypes">
+                           <option value="Accessories">Accessories</option>
+                           <option value="Animals">Animals</option>
+                           <option value="Colections">Colections</option>
+                           <option value="Out side">Out side</option>
+                           <option value="For Home">For Home</option>
+                           <option value="Others">Others</option>
+                           <option value="Clothes">Clothes</option>
+                           <option value="Technology">Technology</option>
+                           <option value="Vehicles">Vehicles</option>
+                           <option value="Services">Services</option>
+                        </select>
+                     </label>
+                  </li>
+                  <br>
+                  <li>
+                     <label id="labels"for="description" class="input-group">
+                     <span>Describe your product in few words</span>
+                     </label>
+                     <textarea style="content-align:center;"name="description" cols="72" rows="4" placeholder=" Description"></textarea>
+                  </li>
+                  <li>
+                     <label id="labels" for="image" class="input-group">
+                     <span class="input-group">Upload images of your product</span>
+                     </label>
+                     <input  lang="en" id="inputFile" class="input-group" type="file" accept="image/*" name="file[]" runat="server" multiple="multiple" placeholder=" Image" onchange="readURL(this);" multiple/>
+                                <div id="preview"></div>
+                  </li>
+                  <br>
+                  <li id="botaosell" >
+                     <button type="submit"  class="button is-block is-info is-large is-centered">Sell</button>
+                  </li>
+               </ul>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
+

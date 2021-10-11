@@ -1,0 +1,35 @@
+{% extends "base.html"%} {% block title %}Notifications{% endblock %}
+{% block content %}
+<div class="main-container" id="mainContainer">
+<br><br><br>
+<h1 style="text-align:center;">Happened activities  in your absence</h1>
+   <div class="box"id="caixaprofilepage" style="pading:3px; text-align:left;padding-inline-start:5em;padding-inline-end:5em; margin-top:10px;padding-top:1em;">
+      <br>
+      <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+         {% if produtos%}                
+         {%for product in produtos%}          
+         <div class="thumb-block  with-uploader tbm-init-ok" onclick="window.location.href='{{ url_for( ('views.products'), id=product.id) }}';"style="pading:3px; text-align:left;padding-inline-start:0em;padding-inline-end: 0em; justify-content:right;">
+            <ul style="list-style: none;">
+               <img class="article-img" src="{{ url_for('static', filename='/uploads/'+ product.picture[0].name +'/')}}" alt={{product.picture[0].name }} width="700px" height="300px" />
+               <li style="font-size:20px;font-weight: bold;">{{ product.name }}</li>
+               <li style="font-size:15px;">{{ product.type}}</li>
+               <li style="font-size:16.5px;font-weight: bold;"><span style="font-size:12px;">{{ product.date.strftime('%Y-%m-%d') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{product.money }}€</li>
+               {%if product.type =='Auctions' %}
+               <li>Event date: {{ product.auctiondate.strftime('%m/%d/%Y, %H:%M') }}</li>
+               {% endif %} 
+               <li class="bullet-item">
+                  <p style="font-size:14px;">Author:&nbsp;{{product.userOwners}}</p>
+               </li>
+            </ul>
+         </div>
+         {%endfor%}                                                 
+         {%else%}
+         <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+            <h1 style="text-align:center; font-size:1cm; color:black; font-weight:bold">
+            You haven't saved anything yet.</p>                
+         </div>
+         {%endif%}
+      </div>
+   </div>
+</div>
+{%endblock%}

@@ -1,0 +1,154 @@
+{% extends "base.html"%} {% block title %}Edit Product{% endblock %}
+{% block content %}
+<div id="body1" class="container-fluid text-center" type=variable value=blue>
+ <div class="hero is-sucess d-flex align-items-center justify-content-center">
+      <tr>
+         <td>
+            <br>                                     
+            <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+            <div class="box" id="caixaindexpage">
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        {% if category =='error' %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+            {% endif %}{% endfor %}{%endif %}{% endwith %}
+            {%block delete%} 
+               <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> 
+               <script>
+                  $(document).ready(function() {                                                             
+                     $('.div_hover').hover(function(){
+                     var class_name=parseInt($(this).attr("data-id")); // output : id_12345
+                     var id='#'+class_name;
+                     var deletePic='#deletePic'+class_name;
+                     var img='#img'+class_name;
+                     var content= $('#imagesdel_').val();
+                     var new_content=content+class_name+";";
+                                                                         
+                        function opacity() { // handler in                         
+                           $(id ).css('opacity', 0.5);
+                           $(deletePic).css("display","block");
+                           // Additional actions (display info, etc.)
+                        };
+                        console.log(id)
+                        $(deletePic).hover(function(){
+                           opacity();
+                           $(deletePic).click(function(){
+                               $(deletePic).css("display","none");
+                               $(img).css("display","none");
+                               $("input[id=imagesdel_]").val(new_content);
+                               console.log($('#imagesdel_').val());
+                           });
+                        });
+
+                        $(id).hover(function(){
+                           opacity();                                     
+                        });
+
+                        $(id).mouseleave(function() { // handler out                           
+                           $( id ).css('opacity', 1);                           
+                           $(deletePic).css("display","none");                          
+                           // Additional actions (hide info, etc.)
+                        });
+                     });
+                  });                                    
+               </script>                      
+         {%endblock%}
+            
+            <form method="POST" action="/BuyOrSell/edit_product/{{product.id}}"  enctype="multipart/form-data">
+               <ul id="formLabels" style="list-style: none;">
+                  <h3 id="title">Edit Product</h3>
+                  <br>
+                  <li>
+                     <p style="tabe-size:4;">&emsp;&emsp;Only change the info that you want alter in your product. You don't need fill all fields, the fields not filled will kepp the info saved on the moment you create the advertise.</p>
+                  </li> 
+                  <br>
+                  <li>
+                     <label id="labels"for="name" class="input-group">
+                     <span>Product name</span>
+                     </label>                    
+                     <input value="{{product.name}}" type class="input-group" type="text" id="nameproduct" name="nameproduct" style="width:29.1%"placeholder="">
+                  </li>
+                  <br>
+                   {%set aux=0%}
+                  {%for pic in product.picture %}
+                     {%set aux=aux+1%}
+                     {% if aux==5%}{%set aux=0%}<br><br><br><br><br><br><hr>{% endif %}
+                     <div class="div_hover" id="{{pic.id}}" data-id="{{pic.id}}">
+                        <button id="deletePic{{pic.id}}" style="display: none; top:50%; border:none;" class="deletePic" type="button">
+                           <span style="margin:3.3cm;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-x" viewBox="0 0 18 18">
+                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                              </svg>
+                           </span>
+                        </button>
+                        <img  class="thumb-block" id="img{{pic.id}}" src="{{ url_for('static', filename='/uploads/'+ pic.name +'/')}}" onclick="window.location.href='/static/uploads/{{pic.name}}'" alt={{pic.name }}  style="width:150px !important; height:120px !important; display: inline-block; float:left;" />
+                     </div>
+                     
+                  {%endfor%}
+                  <br>                        
+                  <li>
+                     <label id="labels"for="price" class="input-group">
+                     <span>Price:</span>&nbsp;&nbsp;&nbsp;
+                     <input  value="{{product.money}}"type="number" required id="price" name="price" min="0" value="0" step="0.025">
+                     </label>
+                  </li>
+                  {% if product.type=='Auctions'%}
+                  <li>
+                     <label for="auctiondate">Date of auction:</label>
+                     <input  value="{{product.auctiondate.strftime('%Y-%m-%dT%H:%M')}}" type="datetime-local" id="auctiondate" name="auctiondate" min="{{today_date}}" max="{{today_date_after_year}}">
+                  </li>
+                  {%endif%}
+                  <li>
+                     <label id="labels"for="category" class="input-group">
+                        <span>What is your product category</span>&nbsp;&nbsp;&nbsp;
+                        <select id="productTypes" name="productTypes" value="{{product.type}}">
+                        <option selected="selected">{{product.category}}</option>
+                           <option value="Accessories">Accessories</option>
+                           <option value="Animals">Animals</option>
+                           <option value="Colections">Colections</option>
+                           <option value="Out side">Out side</option>
+                           <option value="For Home">For Home</option>
+                           <option value="Others">Others</option>
+                           <option value="Clothes">Clothes</option>
+                           <option value="Technology">Technology</option>
+                           <option value="Vehicles">Vehicles</option>
+                           <option value="Services">Services</option>
+                        </select>
+                     </label>
+                  </li>
+                  <br>
+                  <li>
+                     <label id="labels"for="description" class="input-group">
+                     <span>Describe your product in few words</span>
+                     </label>
+                        <textarea style="content-align:center;" id="description"name="description" cols="72" rows="6" >{{product.description}}</textarea>
+                  </li>
+                  <li>
+                     <label id="labels" for="image" class="input-group">
+                     <span class="input-group">Upload images of your product</span>
+                     </label>
+                     <input lang="en" id="inputFile" class="input-group" type="file" id="file[]"accept="image/*" name="file[]" runat="server" multiple="multiple" placeholder=" Image"onchange="readURL(this);" multiple/>
+                     <div id="preview"></div>
+                  </li>
+                  <br>
+                  <li >
+                  <input type="hidden" name="imagesdel_" id="imagesdel_" value="">
+                  <button id="botaoedit" type="submit" style="width:5cm; float:left;"class="btn btn-outline-success">Save Changes</button> 
+                  <button type="button" id="botaocancel" onclick="window.location.href='{{ url_for( ('views.profile'),id=user.id)}}';"style="width:5cm; color:red; float:right;"class="btn btn-outline-secondary">Cancel</button>                     
+                  </li>
+                  <br>
+               </ul>
+               <div></div>
+            </form>
+
+         </div>
+      </div>
+   </div>
+</div>
+{%endblock %}

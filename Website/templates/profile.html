@@ -1,0 +1,183 @@
+{% extends "base.html"%} {% block title %}Profile{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="main-container" id="body1">
+   <div class="box"id="caixaprofilepage" style="pading:3px; text-align:left;padding-top:1em;">
+      <div class="profile_edition">
+       {%if utilizador.logo_user%}
+         <img id="capa" class="img" src="{{ url_for('static', filename='/uploads/'+utilizador.logo_user +'/')}}" alt={{logo_user}}}} style="width:100%; max-width:690px; height: 100%; max-height: 370px;" />
+      {%endif%}
+      <br>
+      {% if utilizador.id == user.id%}
+         <button id="edition_profile" style="display: none; top:50%!important;" class="pen_edition" type="button" onclick="window.location.href='{{ url_for( ('views.edit'))}}';">
+            <span>
+               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+               </svg>
+            </span>
+       </button>
+       {% endif %} 
+       {% if user.id==utilizador.id%}     
+       {%block profile_editions%}
+         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> 
+         <script>
+               $(document).ready(function() {
+                  $('.profile_edition').hover(
+                        function() { // handler in
+                        $( this ).css('opacity', 0.5);
+                        $(this).css("background-color","rgba(177, 174, 174, 0.5)");
+                        $(".pen_edition").css("display","block");
+                        // Additional actions (display info, etc.)
+                        }, function() { // handler out
+                        $( this ).css('opacity', 1);
+                        $(this).css("background-color","white");
+                        $(".pen_edition").css("display","none");
+                        // Additional actions (hide info, etc.)
+                        }
+                  );
+               })
+            </script>
+
+         {%endblock%} 
+         {%endif%}                 
+         <ul   class="content" style="list-style: none;">
+            <li>
+               <img class="redondo" src="{{ url_for('static', filename='/uploads/'+ utilizador.foto_name +'/')}}" onerror="this.src='/static/img/guest_user.jpg/'" alt={{utilizador.name}} width="200" height="200" />
+               &nbsp;
+               <h1 class="title">{{ utilizador.name }}</h1>
+            </li>
+            <li>
+               <label  for="email">Email: &nbsp;</label>
+               {{ utilizador.email}}
+            </li>
+            <li>
+               <tr>
+                  <th>Your products:&nbsp;{{produtos | length}}</th>
+               </tr> 
+            </li>
+            <br>
+            <li>
+               {%if utilizador.description%}
+               <div>
+                  <p>{{ utilizador.description}}</p>
+               </div>
+               {%endif%}     
+            </li>
+         </ul>
+      </div>
+      <br>
+      <div  class="row content d-flex align-items-center justify-content-center" style="height:auto; width:100%;">     
+         {% if produtos%}                
+         {%for product in produtos%}          
+         <div class="thumb-block  with-uploader tbm-init-ok" id="block{{product.id}}" data-count="{{ product.id }}" > 
+            {%if user.id==utilizador.id%}
+            <ul style="list-style: none;">
+               <li> 
+                </form>
+                 <form id="editform" class="forms">
+                  <button id="edit_product{{product.id}}" style="display: none;" class="edit_product" type="button">
+                  <ul>
+                     <span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pen" viewBox="0 0 25 25">
+                           <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                        </svg>
+                     </span>
+                  </ul>
+                  </button>
+               </form >
+               <form id="deleteform" method="POST"action="{{ url_for('views.profile',id=user.id)}}" class="forms" onsubmit="return confirm('Do you really want to delete this product?');">
+                  <button id="delete_product{{product.id}}" style="display: none;" class="delete_product" type="submit">
+                     <input type = "hidden" id="id_delete" name = "id_delete" value = "{{product.id}}"/>
+                     <ul>
+                     <span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 25 25">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                     </svg>
+                     </span>
+                     </ul>
+                  </button>             
+               </li>
+            </ul>   
+            {%endif%}         
+            <ul id="{{product.id}}" data-id="{{product.id}}" class="ul_id"style="list-style: none; z-index:99;">
+               <img class="article-img" src="{{ url_for('static', filename='/uploads/'+ product.picture[0].name +'/')}}" alt={{product.picture[0].name }} width="700px" height="300px" />
+               <li style="font-size:20px;font-weight: bold;">{{ product.name }}</li>
+               <li style="font-size:15px;">{{ product.type}}</li>
+               <li style="font-size:16.5px;font-weight: bold;"><span style="font-size:12px;">{{ product.date.strftime('%Y-%m-%d') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{product.money }}€</li>
+               {%if product.type =='Auctions' %}
+               <li>Event date: {{ product.auctiondate.strftime('%m/%d/%Y, %H:%M') }}</li>
+               {% endif %} 
+               <li class="bullet-item">
+                  <p style="font-size:14px;" >Author:&nbsp;{{product.userOwners}}</p>
+               </li>
+            </ul>
+            {%if utilizador.id==user.id%}
+            {%block delete%} 
+               <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> 
+               <script>
+                  $(document).ready(function() {                                                             
+                     $('.ul_id').hover(function(){
+                     var class_name=$(this).attr("data-id"); // output : id_12345
+                     var id='#'+class_name;
+                     var idProduct="#delete_product"+class_name;
+                     var idProduct_edit="#edit_product"+class_name;
+                          
+                        function opacity() { // handler in                         
+                           $(id ).css('opacity', 0.5);
+                           $(id).css("background-color","rgba(177, 174, 174, 0.5)");
+                           $(idProduct).css("display","block");
+                           $(idProduct_edit).css("display","block");
+                           // Additional actions (display info, etc.)
+                        };
+                        console.log(id)
+
+                        $(this).click(function(){
+                           location.href='/BuyOrSell/products/'+class_name; 
+                        }); 
+                        $(id).hover(function(){
+                           opacity();
+                                                                   
+                        });
+
+                         $(idProduct).hover(function(){
+                           opacity();               
+                        });
+
+                         $(idProduct_edit).hover(function(){
+                           opacity();
+                           $(idProduct_edit).click(function(){
+                              location.href='/BuyOrSell/edit_product/'+class_name; 
+                        }); 
+
+                        });
+
+                        $(id).mouseleave(function() { // handler out                           
+                           $( id ).css('opacity', 1);
+                           $(id).css("background-color","white");
+                           $(idProduct).css("display","none");
+                           $(idProduct_edit).css("display","none");
+                           // Additional actions (hide info, etc.)
+                        });
+                     });
+                  });                                    
+               </script>                      
+         {%endblock%} 
+         {%endif%}
+         </div>
+         {%endfor%}                                                 
+         {%else%}
+         <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+            {%if user==utilizador%}
+            <p style="text-align:center; font-size:1cm; color:black; font-weight:bold; padding-inline-start:5em;">
+            You haven't published anything yet.</p>
+            {%endif%}  
+         </div>
+         {%endif%}
+      </div>
+   </div>
+</div>
+{%else%}
+{% include 'forbiden.html'%}
+{%endif%}
+{% endblock %}

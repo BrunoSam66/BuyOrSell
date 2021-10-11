@@ -1,0 +1,41 @@
+{% extends "base.html"%} {% block title %}Sign up{% endblock %}
+{% block content %}
+<div id="body" class="hero-body is-primary" type=variable value=blue>
+   <div  class="container has-text-centered">
+      <div class="column is-4 is-offset-4">
+         <div class="box" id="caixa" >
+            <h3 class="title">Sign Up</h3>
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        {% if category =='error' %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+            {% endif %}{% endfor %}{%endif %}{% endwith %}
+            <form style="margin-left:20px;" method="POST" action="/BuyOrSell/signup">
+               <div id="labels" class="input-group">
+                  <span id="icon" class="input-group-prepend"><i class="fa fa-envelope-o fa-fw"></i></span>&nbsp;&nbsp;
+                  <input class="input-group-prepend" type="email" name="email" placeholder=" Email">
+               </div>
+               <br>           
+               <div id="labels" class="input-group">
+                  <span id="icon" class="input-group-prepend"><i class="fa fa-user fa-fw"></i></span>&nbsp;&nbsp;
+                  <input class="input-group-prepend" type="text" placeholder=" Username" name="name">
+               </div>
+               <br/>
+               <div id="labels" class="input-group">
+                  <span id="icon" class="input-group-prepend"><i class="fa fa-key fa-fw"></i></span>&nbsp;&nbsp;
+                  <input class="input-group-prepend" type="password" name="password" placeholder=" Password">
+               </div>
+               <br>
+               <button id="botaosignup" type="submit" class="button is-block is-info is-large is-centered">Sign Up</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html"%} {% block title %}BuyOrSell{% endblock %}
+{%block content%}
+<div class="hero-body"style="background-color:#eff1eb;">
+<div class="container" >
+<div  class="row content d-flex align-items-center justify-content-center" style="height:auto;background-color:#eff1eb;">
+   <div class="box"id="products" style=" width:80%;pading:3px; text-align:left;padding-inline-start:5em;padding-inline-end: 5em; justify-content:right;">
+       
+      {%if product.picture|length > 1%}    
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">     
+      <div class="w3-content w3-display-container" > 
+      <br><br> 
+         {% for file in product.picture%}   
+         <img class="mySlides"src="{{ url_for('static', filename='/uploads/'+ product.picture[loop.index-1].name +'/')}}" alt={{product.picture[loop.index-1].name }} width="100%" height="65%" />
+         {%endfor%}                     
+         <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+         <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+      </div>
+      {% block x%}
+      <script>
+         var slideIndex = 1;
+         showDivs(slideIndex);
+         
+         function plusDivs(n) {
+         showDivs(slideIndex += n);
+         }
+         
+         function showDivs(n) {
+         var i;
+         var x = document.getElementsByClassName("mySlides");
+         if (n > x.length) {slideIndex = 1}
+         if (n < 1) {slideIndex = x.length}
+         for (i = 0; i < x.length; i++) {
+             x[i].style.display = "none";  
+         }
+         x[slideIndex-1].style.display = "block";  
+         }         
+    </script>
+    {%endblock%}
+      {%else%}
+      <br> <br>
+      <img src="{{ url_for('static', filename='/uploads/'+ product.picture[0].name +'/')}}" alt={{product.picture[0].name }} width="{{ product.picture[0].width }}" height="{{ product.picture[0].height}}"/>
+      {%endif%}   
+      <ul style="list-style: none;">
+      {% if user.is_authenticated%}
+         <form id="formajax">
+            <li class="title">{{ product.name}}
+               <input type="hidden" name="csrfmiddlewaretoken" id="csrfmiddlewaretoken" value="{{ csrf_token }}"> 
+               <input type = "hidden" id="url" name = "url" value = "{{ url_for('views.products', id = product.id)}}" />
+               
+               <button style="border:none;outline:none; background-color:white; position:flex" type="submit">{% if bit_decision==1%} <i id="marcador"onclick="setColor(event)"; data-count=0 class="fa fa-bookmark-o" aria-hidden="true"></i>{%else%}<i id="marcador" onclick="setColor(event)"; data-count=1 class="fa fa-bookmark" style="color:red;" aria-hidden="true"></i>{%endif%}</button>
+            </li>
+         </form>
+      {%else%}
+       <li class="title">{{ product.name  }}</li>
+      {%endif%}
+         {% block y%}
+         <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>               
+         <script type="text/javascript">  
+            $(document).on('submit','#formajax',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url:$('#url').val(),
+                    data:{
+                        srfmiddlewaretoken:$('#csrfmiddlewaretoken').val(),
+                    },
+            
+                    success: function(){
+                        /*alert("Success... favorites add... something");*/
+                    },
+            
+                });
+            });
+         </script>         
+         {%endblock%} 
+         <li class="subtitle">{{ product.type}}</li>         
+         <li style="font-size:16.5px;font-weight: bold;"><span style="font-size:12px;">{{ product.date.strftime('%Y-%m-%d') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{product.money }}€</li>
+         {%if product.type =='Auctions' %}
+         <li>Event date: {{ product.auctiondate.strftime('%m/%d/%Y, %H:%M')}}</li>
+         {% endif %}                                                                    
+         <li class="bullet-item">Author:&nbsp;<a href="{{url_for(('views.profile'),id=product.userOwnersid)}}">{{product.userOwners}}</a></li>
+         <br>
+         <li class="subtitle">Product description:</li>
+         <li class="description">{{ product.description }}</li>
+         {%if product.type =='Auctions' %}
+         <li class="new_value">
+            <form method="POST" action="/BuyOrSell/new_offer"  enctype="multipart/form-data" style="margin-right:2cm;">     
+         </li>
+         {%endif %}
+
+         <br>                                
+      </ul>
+   </div>
+</div>
+</div>
+</div>
+{%endblock%}

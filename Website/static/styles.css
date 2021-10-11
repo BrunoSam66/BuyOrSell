@@ -1,0 +1,446 @@
+#botaologin{
+ left:30%;   
+}
+
+#botaosignup{
+    left:25%;   
+}
+
+#username{
+    text-align:left !important;
+    left:-130% !important;
+    font-size: 100%;
+}
+
+#formlabels{
+    list-style-type: none;          
+}
+
+#icon{
+    position: absolute;
+    top: 50%;
+    left: -1%;
+    transform: translate(-50%, -50%);    
+}
+
+#caixa{
+    background-color:#eff1eb;
+    display:block;
+    align-items:center;
+    border-color: beige;
+    color:black;
+    margin: 10px;
+    right:30% !important;
+    width:300px !important;    
+    right: 20px;
+}
+
+#navbar{
+    background-color: rgba(1, 213, 250, 1)!important;
+    height: 5px !important;  
+}
+
+#search{
+  width: 100%;
+  height:80px;
+  z-index:99;
+  display:inline-flex;
+  align-items:center;
+  margin-inline-start: 1%;
+}
+
+#logo{
+
+    width: 71px;
+    height: 41px;
+    display: block;
+    position: absolute;
+    left: 4%;
+    top: 10.5%;
+    z-index: 10;
+    text-indent: -1000em;    
+    height:1cm;
+    width:4.5cm;
+    background-size: cover !important;
+}
+#body{
+    background-image: url('/static/img/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#body1{
+    background-color:#eff1eb;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+	height: auto;
+	top: 1.26cm;
+    padding:bottom;
+    display:table;
+	position: absolute;
+    flex:1;
+}
+#title{
+    text-align: center;
+    font-size:27px;
+    font-weight:bold;
+
+}
+#botaosell{
+    padding-left: 44%!important;
+    padding-right:50%;
+}
+#deleteform,#editform{
+    position: absolute;
+    z-index: 99;
+}
+
+p{
+    align-content:"justify"!important;
+    justify-content: start !important;
+    font-size:16px;
+    padding-inline-end: 2em;
+    padding-inline-start: 2em;
+}
+#mainContainer{
+    font-family:courier,arial,helvetica;
+    background-color:#eff1eb;
+    background-size: cover;
+    width:100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    flex: 1;
+    vertical-align: top; 
+    line-height: 1;
+
+}
+
+#filtros{
+    border:none;
+    background-color:#eff1eb;
+    height: calc(6.5cm);
+    justify-items: center;
+    align-content: center;
+    padding: 2cm 10% 10% 2cm;
+    display: block;
+    overflow-y: hidden;
+    list-style-type: none;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 200px;
+}
+
+#headerHome{
+    top:1cm;
+    height:2cm;
+}
+
+#caixaindexpage{
+    font-family: 'Times New Roman', serif;
+    padding: 14px 14px 14px 14px;
+    top:2cm;
+    width:calc(26cm);    
+    display:inline-block;
+    vertical-align: top; 
+    line-height: 1;
+    overflow:auto;
+    height: auto;    
+}
+
+#caixaprofilepage{ 
+    top:0.2cm;   
+    height: auto;
+    margin: 0 auto;
+    padding: 0px;
+    position: relative;
+    width:65%;    
+    padding-inline-start:2em;
+    padding-inline-end:2em;
+    display:table;
+    overflow:auto;    
+}
+#products{
+    height: auto;
+    margin: 0 auto;
+    padding: 0px;
+    position: relative;
+    width:71%;    
+    display:table;
+    overflow:auto;
+    height: auto; 
+}
+.redondo {
+    width: 200px;
+    height: 200px;
+    background-color: #000;
+    color: #FFF;
+    border-radius: 50%;
+}
+
+.thumb-block {
+    display: inline-block;
+    margin: 1;
+    padding-bottom: 7px;
+    padding-left: 14px;
+    position: relative;
+    text-align: center;
+    vertical-align: text-top;
+    width: 300px;
+}
+
+ .slide{
+	width:96%;
+	}
+	
+* {
+	box-sizing: border-box
+}
+
+.mySlides {
+	display: none;
+}
+
+.slideshow-container {
+	width: 100%;
+	position: relative; 
+	margin: -10px;
+
+}
+
+#customizeButton {
+    border: none;
+    border-radius: calc(.10 * 1);
+    box-shadow: 0 3px 6px rgb(0 0 0 / 36%), 0 1px 2px rgb(0 0 0 / 73%);
+    font-weight: 400;
+    min-width: 32px;
+}
+#customizeButtonContainer {
+    background-color: var(--ntp-background-override-color);
+    border-radius: calc(.10 * 1);
+    bottom: 16px;
+    position: fixed;
+}
+#customizeIcon {
+    background-color: var(--text-color);
+    height: 10px;
+    margin-inline-end: 8px;
+    margin-inline-start: 8px;
+    width: 16px;
+}
+
+
+  .notification {
+      text-align: center;
+    text-decoration: none !important;
+    width: 100%;height: 100%;
+    background-color: white;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    padding: 5px 5px;
+    position: relative;
+    display: inline-block;
+    border-radius: 0px;
+  } 
+ 
+ 
+  .notification:hover { 
+    text-decoration: none !important;  
+    background: rgb(233, 235, 235);
+  }
+  
+  
+  .notification .badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: red;
+    color: rgb(0, 0, 0);
+  }
+
+.profile_edition{  
+    align-content: center;
+
+    position: relative;
+    border-bottom: #000;
+    border-bottom: 2px solid;
+    width: 100%;
+    height: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+#edition_profile 
+{   
+    top:5px;
+    float:right;
+    right:10px;    
+    background-color:black;
+    color:white;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+}
+
+.delete_prodroduct
+{   
+    top:5px;
+    float:right;
+    right:10px;    
+    background-color:black;
+    color:white;
+    width: 31px;
+    height: 31px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+}
+
+.forms{
+    top: 50% !important;;
+    display:inline;    
+    position: absolute;
+}
+
+.edit_product{
+    transform: translateY(-50%);
+    transform: translateX(-90%);
+    align-items: center;
+    border:1px;
+    color:green;
+    
+}
+.delete_product{
+    transform: translateY(-50%);
+    transform: translateX(10%);
+    align-items: center;
+    border:1px;
+    color:red;
+    float:right;
+    position: relative;
+}
+
+#divBig{
+    top:90%;    
+    z-index: 0.95;
+    display:inline;
+    position: absolute;    
+    width: 50%;
+    transform: translateX(300px);
+    
+}
+
+#capa{
+    position: relative;
+    width: 70%;
+    padding-inline-end:5em;
+    height: 100%;
+    z-index: 0;
+    display:inline;    
+    float: right!important;
+    transform: translateX(10%);
+}
+
+#front{
+    position: absolute;
+    z-index: 0.9;
+}
+
+
+
+#botaocancel{
+    border: 1px solid;
+    border-color: red;
+    color:red;
+    background-color:white;
+}
+
+#botaocancel:hover{    
+    color: white !important;
+    background-color:red;
+}
+
+div {
+    display: block;
+}
+
+
+body,p, input, textarea, select, option, optgroup, button {
+    font-family: 'Times New Roman', serif, sans-serif;
+}
+
+body, input, textarea, select, option, optgroup, button {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Times New Roman', serif, sans-serif !important;
+}
+body {
+    text-align: center;
+    font-size: 100%;
+    line-height: 18px;
+}
+
+.box{
+    height:calc( 100% - 50px );
+    overflow: auto;
+     
+}
+html, body {
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+.pagination {
+    display: inline-block;
+    vertical-align: center;
+    line-height:1 !important;  
+  }
+  
+.None {
+    line-height:1 !important;
+    color: black;    
+    padding: 6px 12px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 2.5px;
+    border: 1px solid #000000;
+}
+  
+.Active {
+    line-height:1 !important;
+    color: black;    
+    padding: 6px 12px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 2.5px;    
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+  }
+  
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.deletePic{
+    top:0.3cm !important;       
+    color:black;
+    background-color: rgb(255, 0, 255,0);
+    align-items: right; 
+    position: relative;
+    height:9px;
+    width: 9px;
+    z-index: 1;
+    outline: none;
+    border-color: inherit;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

@@ -1,0 +1,180 @@
+{% extends "base.html"%} {% block title %}BuyOrSell{% endblock %}
+{% block content %}
+<div id="mainContainer" class="body">
+   <div class="box d-flex align-items-center justify-content-center" id="filtros">
+      <br>
+      <header class="content" id="headerHome"> 
+         <br>
+         <h2  class="box-title d-flex align-items-center justify-content-center">Welcome {{user.name}}</h2>
+        
+         <div id="search">
+            <form enctype="multipart/form-data" action="{{url_for(('views.index'))}}?method=POST&amp;page=0"class="form-inline align-items-center justify-content-center" method="POST"  onsubmit="if($('input[name=search]').val() == ''){return false}">
+               &nbsp;&nbsp; &nbsp;&nbsp;
+               <label id="labels"for="type" class="input-group">
+                  <span>Type</span>&nbsp;&nbsp;&nbsp;
+                  <select id="types" name="types">
+                     <option value="Types">---Types---</option>
+                     <option value="For sale">For sale</option>
+                     <option value="Wanted">Advertise/Wanted</option>
+                     <option value="Auctions">Auctions</option>
+                  </select>
+                  &nbsp;
+               <label id="labels"for="category" class="input-group">
+                  <span>Category</span>&nbsp;&nbsp;&nbsp;
+                  <select id="select" name="productTypes">
+                     <option value="Categories">---Categories---</option>
+                     <option value="acessorios">Accessories</option>
+                     <option value="animais">Animals</option>
+                     <option value="colecoes">Colections</option>
+                     <option value="exteriores">Out side</option>
+                     <option value="interiores">For Home</option>
+                     <option value="outros">Others</option>
+                     <option value="roupa">Clothes</option>
+                     <option value="tecnologia">Technology</option>
+                     <option value="veiculos">Vehicles</option>
+                     <option value="servicos">Services</option>
+                  </select>
+               </label>
+               &nbsp;&nbsp;
+               <label for="min">Price between:</label>
+               <input id="min" type="number" required name="pricemin" min="0" value="0" step="0.25" aria-label="Preço entre:" style="width:2.2cm; height:0.7cm;">
+               </label>&nbsp;
+               <label for="max">and</label>&nbsp;
+               <input id="max" type="number" required name="pricemax" min="0" value="1000" step="0.25" aria-label="e"  style="width:2.2cm; height:0.7cm;">
+               </label>&nbsp;      
+               <br>
+               <div class="title d-flex align-items-center justify-content-center">   
+                  <input class="form-control mr-sm-2" style="width:300px; height:0.9cm;"  type="search" name="search"placeholder="Search your product" aria-label="Search">
+                  <button class="btn btn-outline-success" style="width:2.65cm; height:0.9cm;"  type="submit">Search</button>
+               </div>
+            </form>
+         </div>
+   </div>
+   </header>
+   <div class="hero is-sucess d-flex align-items-center justify-content-center">
+      <tr>
+         <td>
+            {% if produtos and n_pages>0%} 
+            <br>                                     
+            <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+               <div class="box" id="caixaindexpage">
+                  {%for product in produtos%}                  
+                  <div class="thumb-block  with-uploader tbm-init-ok" onclick="window.location.href='{{ url_for( ('views.products'), id=product.id) }}';"style="pading:3px; text-align:left;padding-inline-start:0em;padding-inline-end: 0em; justify-content:right;">
+                     <ul style="list-style: none;">
+                        <img class="article-img" src="{{ url_for('static', filename='/uploads/'+ product.picture[0].name +'/')}}" alt={{product.picture[0].name }} width="700px" height="300px" />
+                        <li style="font-size:20px;font-weight: bold;">{{ product.name }}</li>
+                        <li style="font-size:15px;">{{ product.type}}</li>
+                        <li style="font-size:16.5px;font-weight: bold;"><span style="font-size:12px;">{{ product.date.strftime('%Y-%m-%d') }}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{product.money }}€</li>
+                        {%if product.type =='Auctions' %}
+                        <li>
+                        <p>Event date: {{ product.auctiondate.strftime('%m/%d/%Y, %H:%M') }}</p></li>
+                        {% endif %} 
+                        <li class="bullet-item">
+                           <p style="font-size:12px;">Author:&nbsp;<a style="color:black;" href="{{url_for(('views.profile'),id=product.userOwnersid)}}">{{product.userOwners}}</a></p>
+                        </li>
+                     </ul>
+                  </div>                  
+                  {%endfor%}         
+            
+           <br>   
+           {%if n_pages>1%}         
+           <ul style="list-style: none;">
+            <li>
+               <div class="pagination">
+                     {% block y%}
+                     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>               
+                     <script type="text/javascript"> 
+                     $(document).on('submit','pagerGoToPage',function(e){
+                           var url_;
+                           method=$('.method').val();
+                           alert(method)
+                           arg_page=$('#pageParam').val()
+                           if($.isNumeric(arg_page)){
+                              arg_page= (parseInt(arg_page,10))-1;
+                              if( method=='GET'){                                 
+                                 url_=decodeURIComponent('/BuyOrSell/index/?method=GET&page='+arg_page);
+                                 confirm(url_);
+                                 window.location = url_
+                              } else { 
+                                 url_=decodeURIComponent('/BuyOrSell/index/?'+$('#method').val()+'&page='+arg_page +$('#types_').val()+$('#categoria_').val()+$('#pricemax_').val()+$('#pricemin_').val()+$('#search_').val());
+                                 confirm(url_);
+                                 //window.location = url_
+                              }
+                           } else{
+                              return false
+                              //url_=$('.pagelink').val();
+                           }                          
+                        });
+                     </script>         
+                     {%endblock%} 
+                     <form id="pagerGoToPage" method='GET'>
+                     <span class="fnormal small">Ir para a página:</span>
+                     <fieldset class="fleft">
+                           <input class="page_number" name="page" type="text" maxlength="4" id="pageParam" value="">
+                           <input id="method" type="hidden"name="method" value="{{method}}">                            
+                           <input class="pagelink_post" type="hidden"name="types" id="types_" value="{{types}}"> 
+                           <input class="pagelink_post" type="hidden"name="categoria" id="categoria_" value="{{categoria}}">                         
+                           <input class="pagelink_post" type="hidden"name="pricemax" id="pricemax_" value="{{pricemax}}">
+                           <input class="pagelink_post" type="hidden"name="pricemin" id="pricemin_" value="{{pricemin}}">  
+                           <input class="pagelink_post" type="hidden"name="search" id="search_" value="{{search}}">
+                           <input class="sub" type="submit" value="OK">
+                     </fieldset>
+                     </form>  
+                     <br> 
+                        {%if method=='POST'%}
+                           <a  href="{{url_for(('views.index'))}}?method=POST&amp;page={{current_page-1 if current_page>=2 else n_pages}}&amp;types={{types}}&amp;categoria={{categoria}}&amp;pricemax={{pricemax}}&amp;pricemin={{pricemin}}&amp;search={{search}}" style="display:inline-block;">
+                              <span>&laquo;Prev</span>
+                           </a>                                                           
+                         
+                        {%else%}                   
+                           <a class="link{page:-1}" href="{{url_for(('views.index'))}}?method=GET&amp;page={{current_page-1 if current_page>=2 else n_pages}}" data-cy="page-link-prev"> 
+                              <span>&laquo;Prev</span>
+                           </a> 
+                        {%endif%}  
+                        {% for _ in range(0, 100000) %}
+                           {% set count=loop.index-1%}                                      
+                           {% if loop.index > n_pages %}{% break %}{% endif %} 
+                           {%if method=='POST'%}                                             
+                              <a class="{% if (loop.index!=current_page)%} None {%else%} Active {%endif%}" href="{{url_for(('views.index'))}}?method=POST&amp;page={{loop.index}}&amp;types={{types}}&amp;categoria={{categoria}}&amp;pricemax={{pricemax}}&amp;pricemin={{pricemin}}&amp;search={{search}}" style="display:inline-block;">
+                                 <span>{{loop.index}}</span>
+                              </a>                           
+                           {%else%}
+                           <a class="{% if (loop.index!=current_page)%} None {%else%} Active{%endif%}" href="{{url_for(('views.index'))}}?method=GET&amp;page={{loop.index}}" style="display:inline-block;">
+                              <span>{{loop.index}}</span>
+                           </a>
+                           {%endif%}
+
+                        {%endfor%}
+                         
+                        {%if method=='POST'%}                   
+                           <a  href="{{url_for(('views.index'))}}?method=POST&amp;page={{current_page+1 if current_page<=n_pages-1 else 1}}&amp;types={{types}}&amp;categoria={{categoria}}&amp;pricemax={{pricemax}}&amp;pricemin={{pricemin}}&amp;search={{search}}" style="display:inline-block;">
+                              <span>Next&raquo;</span>
+                           </a>
+                        {%else%}                        
+                           <a href="{{url_for(('views.index'))}}?method=GET&amp;page={{current_page+1 if current_page<=n_pages-1 else 1}}" data-cy="page-link-next">
+                              <span>Next&raquo;</span>
+                           </a>
+                        {%endif%}                          
+                     </div>
+                  </div> 
+              
+               </li>
+            </ul>
+            {%endif%}
+         </div>                               
+   </div>
+   {%else%}
+   <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;"> 
+   <h1 style="text-align:center; font-size:1cm; color:red;">Not Found 404!</p>
+   <p> Don't exist any product named with that key words, and no description also.</p>
+   <p> If you sure that product exists:</p>
+   <p>Please try others keywords</p>
+   </div>
+   {%endif%}
+   </td>  
+   </tr> 
+   <div></div>
+</div>
+<br>
+</div>    
+{% endblock %}

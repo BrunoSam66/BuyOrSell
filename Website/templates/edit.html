@@ -1,0 +1,104 @@
+{% extends "base.html"%} {% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div id="body1" class="mainContainer" style="heigth:auto;">
+  <div class="hero is-sucess d-flex align-items-center justify-content-center">
+      <tr>
+         <td>
+            <br>                                     
+            <div  class="row content d-flex align-items-center justify-content-center" style="height:auto;">
+            <div class="box" id="caixaindexpage">
+            {% with messages = get_flashed_messages(with_categories=true) %} 
+                {% if messages %} 
+                    {% for category, message in messages %} 
+                        {% if category =='error' %}
+                            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+            {% endif %}{% endfor %}{%endif %}{% endwith %}    
+            <form method="POST" action="/BuyOrSell/edit"  enctype="multipart/form-data" style="margin-right:2cm;">
+               <ul id="formLabels" style="list-style: none;">
+                  <h3 id="title">Edit your profile</h3>                  
+                  <li>
+                     <p style="tabe-size:4; justify-content:left !important;">&emsp;&emsp;Here you can indicate information about you.Fill in all fields so other users can accurately understand whtat is your bunisess area. Also leave your contacts. Try to incorporate a short description.</p>
+                     <p>This elements are not required!</p>
+                  </li> 
+                    <br>                 
+                  <li>
+                     <label id="labels"for="name" class="input-group">
+                     <span>Name:</span>
+                     </label>                    
+                     <input value="{{user.name}}" class="input-group" type="text" name="name" style="width:29.1%"placeholder=" Name">
+                  </li>
+                    <br>
+                  <li>
+                  <label id="labels"for="password" class="input-group" >
+                     <span>Current password:</span>
+                     <input  class="input-group" type="password" name="password1" id="password1" placeholder=" Current password">
+                  </label>
+                  </li>
+                  <li>
+                     <label id="labels"for="password" class="input-group" >
+                        <span>New password:</span>
+                        <input class="input-group-prepend" type="password"id="password2" name="password2" placeholder=" New password">
+                     </label>
+                  </li>
+                  <li>
+                     <label id="labels"for="password" class="input-group" >
+                        <span>Confirm new password:</span>
+                        <input class="input-group-prepend" type="password" id="password3" name="password3" placeholder=" Condirm the new password">
+                     </label>
+                  </li>
+                  <li>
+                     <label id="labels"for="email" class="input-group">
+                     <span>Email:</span>&nbsp;&nbsp;&nbsp;
+                     <input value="{{user.email}}" width="50px" type="text" name="email" class="input-group" id="email" placeholder=" Email">
+                     </label>
+                  </li>             
+                  <br>
+                  <li>
+                     <label id="labels"for="description" class="input-group">
+                     <span>Describe your business area or enterprise:</span>
+                     </label>
+                     {%if user.description!=''%}
+                        <textarea style="content-align:center;"name="description" value="" cols="72" rows="4" >{{user.description}}</textarea>
+                     {%else %}
+                        <textarea style="content-align:center;"name="description" value=""cols="72" rows="4" placeholder=" Description"></textarea>
+                     {%endif%}
+                  </li>
+                   <li>
+                     <label id="labels" for="image" class="input-group">
+                     <span class="input-group">Upload a picture for your profile:</span>
+                     </label>
+                     <input id="inputFile" class="input-group" type="file" accept="image/*" name="picProfile" runat="server" placeholder=" User picture"onchange="readURL(this,'#preview_pic');" />
+                        <div id="preview_pic"></div>
+                  </li>
+                  <br>
+                  <li>
+                     <label id="labels" for="image" class="input-group">
+                     <span class="input-group">Upload a picture of your logo and/or enterprise:</span>
+                     </label>
+                     <input  lang="en" id="inputFile" class="input-group" type="file" accept="image/*" name="logoPic" runat="server" placeholder=" Logo picture"onchange="readURL(this,'#preview_logo');" />
+                     <div id="preview_logo"></div>
+                  </li>                     
+                     <br>
+                  <li >
+                     <form enctype="multipart/form-data" class="form-inline align-items-center justify-content-center" method="POST" action="/BuyOrSell/edit/">
+                        <input id="del_account" type="hidden" name="del" value="0">
+                        <button id="botaoedit" type="submit" style="width:5cm; float:left;"class="btn btn-outline-success">Save Changes</button> 
+                    </form>
+                     <button type="button" id="botaocancel" onclick="window.location.href='{{ url_for( ('views.profile'),id=user.id)}}';"style="width:5cm; color:red; float:right;"class="btn btn-outline-secondary">Cancel</button>                     
+                  </li>
+                  <br>            
+               </ul>              
+            </form>
+            <br>            
+         </div>          
+      </div>
+         <td>
+      <tr>
+   </div>
+</div>
+{%endblock%}
