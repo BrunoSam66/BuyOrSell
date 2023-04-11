@@ -1,6 +1,6 @@
-$env:FLASK_APP ="Website"
-set FLASK_DEBUG=1
-flask run  
+#$env:FLASK_APP ="Website"
+#set FLASK_DEBUG=1
+#flask run  
 
 
 
